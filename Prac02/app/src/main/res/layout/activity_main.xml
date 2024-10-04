@@ -8,14 +8,20 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:id="@+id/textViewResult"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="60dp"
-        android:text="No Result!"
-        android:textSize="20dp" />
+        android:layout_height="250dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="10dp"
+            android:text="No Result!"
+            android:textSize="20dp" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/textViewMessage"
@@ -25,7 +31,6 @@
         android:textSize="24dp"
         android:textColor="@color/red"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
         />
 
     <EditText
