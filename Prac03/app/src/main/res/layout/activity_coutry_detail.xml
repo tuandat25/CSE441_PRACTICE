@@ -10,38 +10,90 @@
 
     <ImageView
         android:id="@+id/imageViewFlag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/textViewNation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        tools:srcCompat="@drawable/vn_flag"
+        android:layout_gravity="center" />
 
-    <TextView
-        android:id="@+id/textViewCapital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginEnd="90dp"
+        android:background="#F8582C"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewPopulation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textViewArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewDensity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textViewNation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="Nation: Vietnam"
+            android:textColor="#F8582C"
+            android:textSize="18dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewWorldShare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textViewCapital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:text="A"
+            android:textStyle="bold" />
+            />
+
+        <TextView
+            android:id="@+id/textViewPopulation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/textViewArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/textViewDensity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/textViewWorldShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+
 </LinearLayout>

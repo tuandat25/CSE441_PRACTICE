@@ -2,6 +2,7 @@ package com.tuandat.btth.prac03.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.tuandat.btth.prac03.CoutryDetailActivity;
 import com.tuandat.btth.prac03.R;
 import com.tuandat.btth.prac03.entity.Country;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryViewHolder> {
@@ -42,7 +44,7 @@ public class CountryAdapter extends RecyclerView.Adapter<CountryAdapter.CountryV
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, CoutryDetailActivity.class);
-            intent.putExtra("country", (CharSequence) country);
+            intent.putExtra("country", (Serializable) country);
             context.startActivity(intent);
         });
     }
