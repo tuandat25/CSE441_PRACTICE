@@ -1,0 +1,48 @@
+[
+  {
+    "id": "B27DCCN100",
+    "full_name": {
+      "first": "Hoa",
+      "last": "Mai",
+      "midd": "Thị"
+    },
+    "gender": "Nữ",
+    "birth_date": "10/10/2009",
+    "email": "hoamai@xmail.com",
+    "address": "Nghệ An",
+    "major": "CNTT",
+    "gpa": 3.25,
+    "year": 2
+  },
+  {
+    "id": "B27DCCN101",
+    "full_name": {
+      "first": "Ngọc My",
+      "last": "Linh",
+      "midd": "Thị"
+    },
+    "gender": "Nữ",
+    "birth_date": "12/11/2010",
+    "email": "ngocmy@xmail.com",
+    "address": "Hà Nội",
+    "major": "Kinh Tế",
+    "gpa": 2.95,
+    "year": 2
+  },
+  {
+    "id": "B27DCCN102",
+    "full_name": {
+      "first": "Hoàng",
+      "last": "Minh",
+      "midd": "Ngọc"
+    },
+    "gender": "Nam",
+    "birth_date": "15/07/2009",
+    "email": "hoangminh@xmail.com",
+    "address": "TP. Hồ Chí Minh",
+    "major": "CNTT",
+    "gpa": 3.0,
+    "year": 2
+  }
+
+]
