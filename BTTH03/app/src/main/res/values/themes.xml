@@ -1,9 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.BTTH03" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.BTTH03" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">#6200EE</item>
     </style>
 
     <style name="Theme.BTTH03" parent="Base.Theme.BTTH03" />
+
+    <style name="MyActionBarTitleText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">#FFFFFF</item> <!-- Đặt màu chữ cho ActionBar -->
+    </style>
+
+
 </resources>
