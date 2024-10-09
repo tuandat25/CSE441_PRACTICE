@@ -1,10 +1,12 @@
 package com.tuandat.btth.btth03.entities;
+import java.io.Serializable;
+
 import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student {
+public class Student implements Serializable {
     private String id;
     private FullName full_name;
     private String gender;
@@ -21,7 +23,7 @@ public class Student {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class FullName {
+    public static class FullName implements Serializable {
         private String first;
         private String last;
         private String midd;

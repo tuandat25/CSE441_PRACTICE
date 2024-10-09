@@ -1,5 +1,6 @@
 package com.tuandat.btth.btth03.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tuandat.btth.btth03.R;
+import com.tuandat.btth.btth03.StudentDetailActivity;
 import com.tuandat.btth.btth03.entities.Student;
 
 import java.util.List;
@@ -38,14 +40,21 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             holder.imgStudent.setImageResource(R.drawable.male);
         }
 
-        holder.tvStudentName.setText(student.getFull_name().getLast() + " " + student.getFull_name().getMidd() + " " + student.getFull_name().getFirst());
+        // Sử dụng trim() để loại bỏ dấu cách
+        String lastName = student.getFull_name().getLast().trim();
+        String middleName = student.getFull_name().getMidd().trim();
+        String firstName = student.getFull_name().getFirst().trim();
+
+        holder.tvStudentName.setText(lastName + " " + middleName + " " + firstName);
         holder.tvStudentID.setText(student.getId());
         holder.tvGpa.setText(String.valueOf(student.getGpa()));
         // Xử lý sự kiện khi click vào item để hiển thị chi tiết
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Chuyển dữ liệu sang Activity khác hoặc hiển thị chi tiết trong Dialog
+                Intent intent = new Intent(v.getContext(), StudentDetailActivity.class);
+                intent.putExtra("STUDENT_DATA", student); // Chuyển dữ liệu sinh viên
+                v.getContext().startActivity(intent);
             }
         });
     }
@@ -67,4 +76,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             tvGpa = itemView.findViewById(R.id.textViewGpa);
         }
     }
+
+
 }
