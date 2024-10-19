@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -32,7 +33,11 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.firebase.database)
+    //Lombok
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly("org.projectlombok:lombok:1.18.34")
+    annotationProcessor("org.projectlombok:lombok:1.18.34")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
