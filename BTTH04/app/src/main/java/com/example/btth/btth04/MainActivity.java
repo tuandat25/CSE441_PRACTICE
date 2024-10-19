@@ -1,77 +1,161 @@
 package com.example.btth.btth04;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.btth.btth04.entities.Student;
+import com.google.firebase.Firebase;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    EditText editTextName, editTextClass, editTextGPA;
+
+    EditText edtName, edtClass, edtGpa;
     Button btnAdd, btnUpdate, btnDelete;
-     RecyclerView recyclerView;
-     StudentAdapter studentAdapter;
-     List<Student> studentList;
+    ListView lvStudent;
+    ArrayList<Student> listStudent;
+    StudentAdapter studentAdapter;
     FirebaseDatabaseHelper firebaseDatahelper;
     DatabaseReference databaseReference;
+
     String idStudent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         //bât khả năng lưu trữ cục bộ (trên thiết bị) của firebasedatabase khi không có kết nối mạng
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        // Khởi tạo RecyclerView
-        recyclerView = findViewById(R.id.recyclerView1);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        // Khởi tạo EditText, Button
-        editTextName = findViewById(R.id.editTextName);
-        editTextClass = findViewById(R.id.editTextClass);
-        editTextGPA = findViewById(R.id.editTextGPA);
-        btnAdd = findViewById(R.id.buttonAdd);
-        btnUpdate = findViewById(R.id.buttonEdit);
-        btnDelete = findViewById(R.id.buttonXoa);
-
-        // Khởi tạo danh sách sinh viên
-        studentList = new ArrayList<>();
-        studentList.add(new Student("1", "Nguyen Van A", "12A1", 8.5));
-        studentList.add(new Student("2", "Tran Thi B", "12A2", 7.8));
-        studentList.add(new Student("3", "Le Van C", "12A3", 9.0));
-
-        // Gán Adapter cho RecyclerView
-        studentAdapter = new StudentAdapter(this, studentList);
-        recyclerView.setAdapter(studentAdapter);
-
-        firebaseDatahelper = new FirebaseDatabaseHelper();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // Check connection
-        checkFirebaseConnection();
-        readFromDatabase();
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        edtName = (EditText) findViewById(R.id.editTextName);
+        edtClass = (EditText) findViewById(R.id.editTextClass);
+        edtGpa = (EditText) findViewById(R.id.editTextGPA);
+        btnAdd = (Button) findViewById(R.id.buttonAdd);
+        btnUpdate = (Button) findViewById(R.id.buttonEdit);
+        btnDelete = (Button) findViewById(R.id.buttonXoa);
+        lvStudent = (ListView) findViewById(R.id.lvStudents);
+        listStudent = new ArrayList<>();
+        Student student = new Student("id3", "name3", "class3", 3.5);
+        listStudent.add(student);
+        studentAdapter = new StudentAdapter(MainActivity.this, listStudent);
+        lvStudent.setAdapter(studentAdapter);
+        firebaseDatahelper = new FirebaseDatabaseHelper();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+//
+//        // Check connection
+        checkFirebaseConnection();
+        readFromDatabase();
+
+        edtName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(edtName.getText().toString().isEmpty()){
+                        Toast.makeText(MainActivity.this, "Name is required", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        edtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchStudent();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edtClass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(edtClass.getText().toString().isEmpty()){
+                        Toast.makeText(MainActivity.this, "Email is required", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        edtGpa.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    if(edtGpa.getText().toString().isEmpty()){
+                        Toast.makeText(MainActivity.this, "Email is required", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addStudent();
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateStudent();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteStudent();
+            }
+        });
+
+        lvStudent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Student student1 = listStudent.get(position);
+                idStudent = student1.getId();
+                edtName.setText(student1.getName());
+                edtClass.setText(student1.getStudentClass());
+                edtGpa.setText(String.valueOf(student1.getGpa()));
+            }
+        });
+
+
+        loadStudent();
     }
     private void checkFirebaseConnection() {
         databaseReference.child("testConnection").setValue("Hello, Firebase!")
@@ -90,6 +174,71 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Read value: " + value, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(MainActivity.this, "Failed to read value", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void searchStudent(){
+        String name = edtName.getText().toString();
+        firebaseDatahelper.getRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listStudent.clear();
+                for(DataSnapshot studentSnapshot : snapshot.getChildren()){
+                    Student student = studentSnapshot.getValue(Student.class);
+                    if (student.getName().toLowerCase().contains(name.toLowerCase())){
+                        listStudent.add(student);
+                    }
+                }
+                studentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+
+    private void addStudent(){
+        String name = edtName.getText().toString();
+        String studentClass = edtClass.getText().toString();
+        double gpa = Double.parseDouble(edtGpa.getText().toString());
+        //tao 1 id = key cua node trong firebase
+        String id = firebaseDatahelper.getRef().push().getKey();
+        Student student = new Student(id, name, studentClass, gpa);
+        firebaseDatahelper.addStudent(student);
+    }
+    private void updateStudent(){
+        String id = idStudent;
+        String name = edtName.getText().toString();
+        String studentClass = edtClass.getText().toString();
+        Student student = new Student(id, name, studentClass, Double.parseDouble(edtGpa.getText().toString()));
+        firebaseDatahelper.updateStudent(id, student);
+    }
+
+    private void deleteStudent(){
+        String id = idStudent;
+        firebaseDatahelper.deleteStudent(id);
+    }
+
+    private void loadStudent(){
+        firebaseDatahelper.getRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listStudent.clear();
+                for(DataSnapshot studentSnapshot : snapshot.getChildren()){
+                    Student student = studentSnapshot.getValue(Student.class);
+                    listStudent.add(student);
+                }
+                studentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
