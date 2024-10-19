@@ -25,16 +25,34 @@ public class ConvertForm extends AppCompatActivity {
         buttonClear = findViewById(R.id.buttonClear);
 
         buttonConvertCelsius.setOnClickListener(v -> {
-            double celsius = Double.parseDouble(editTextCelsius.getText().toString());
-            double fahrenheit = celsius * 1.8 + 32;
-            editTextFahrenheit.setText(String.valueOf(fahrenheit));
+            String fahrenheitText = editTextFahrenheit.getText().toString();
+            if (!fahrenheitText.isEmpty()) {
+                double fahrenheit = Double.parseDouble(fahrenheitText);
+                double celsius = (fahrenheit - 32) / 1.8;
+                editTextCelsius.setText(String.valueOf(celsius));
+            } else {
+                editTextCelsius.setText(""); // Hoặc hiển thị thông báo lỗi
+            }
         });
 
         buttonConvertFahrenheit.setOnClickListener(v -> {
-            double fahrenheit = Double.parseDouble(editTextFahrenheit.getText().toString());
-            double celsius = (fahrenheit - 32) / 1.8;
-            editTextCelsius.setText(String.valueOf(celsius));
+            String celsiusText = editTextCelsius.getText().toString();
+            if (!celsiusText.isEmpty()) {
+                double celsius = Double.parseDouble(celsiusText);
+                double fahrenheit = celsius * 1.8 + 32;
+                editTextFahrenheit.setText(String.valueOf(fahrenheit));
+            } else {
+                editTextFahrenheit.setText(""); // Hoặc hiển thị thông báo lỗi
+            }
+            //
+
         });
+
+        buttonClear.setOnClickListener(v -> {
+            editTextCelsius.setText("");
+            editTextFahrenheit.setText("");
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
